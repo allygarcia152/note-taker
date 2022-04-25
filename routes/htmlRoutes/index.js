@@ -2,7 +2,7 @@ const path = require('path');
 const router = require('express').Router();
 
 // GET /notes to return notes.html file
-router.get('/aquarium', (req, res) => {
+router.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public/notes.html'));
 });
 
