@@ -43,8 +43,13 @@ async function deleteNote(id) {
 // GET /api/notes read db.json file to retreave saved notes
 router.get('/notes', (req, res) => {
   readAsync().then(notes => {
-    let parsedNotes = [].concat(JSON.parse(notes));
-    return res.json(parsedNotes);
+    let notesArr;
+    if (notes){
+      notesArr = [].concat(JSON.parse(notes));
+    } else {
+      notesArr = [];
+    }
+    return res.json(notesArr);
   });
 });
 
