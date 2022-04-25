@@ -24,8 +24,21 @@ async function createNewNote(body) {
   }).then(() => {
     return newNote;
   })
+};
 
-}
+async function deleteNote(id) {
+  readAsync().then(notes => {
+    let notesArray = [].concat(JSON.parse(notes));
+    var filteredArray = notesArray.filter(function (note) {
+      if (note.id !== id) {
+        return note;
+      }
+    });
+    return filteredArray;
+  }).then(notes => {
+    fs.writeFileSync(path.join(__dirname, '../../db/db.json'), JSON.stringify(notes));
+  })
+};
 
 // GET /api/notes read db.json file to retreave saved notes
 router.get('/notes', (req, res) => {
@@ -41,20 +54,6 @@ router.post('/notes', (req, res) => {
     return res.json(notes);
   });
 });
-
-async function deleteNote(id) {
-  readAsync().then(notes => {
-    let notesArray = [].concat(JSON.parse(notes));
-    var filteredArray = notesArray.filter(function (note) {
-      if (note.id !== id) {
-        return note;
-      }
-    });
-    return filteredArray;
-  }).then(notes => {
-    fs.writeFileSync(path.join(__dirname, '../../db/db.json'), JSON.stringify(notes));
-  })
-};
 
 // DELETE note from left column
 router.delete('/notes/:id', (req, res) => {
